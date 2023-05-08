@@ -22,12 +22,10 @@ jobs:
         run: |
           # Download Cocos Creator
           curl -L -o cocos.zip https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_macOS.dmg
-          # Mount the disk image
-          hdiutil attach cocos.zip
           # Extract Cocos Creator
-          ditto -rsrc /Volumes/CocosCreator/CocosCreator.app ./cocoscreator
-          # Unmount the disk image
-          hdiutil detach /Volumes/CocosCreator
+          unzip -q cocos.zip
+          # Rename extracted directory
+          mv CocosCreator.app cocoscreator
 
       - name: Add Cocos Creator to PATH
         run: echo "::add-path::$(PWD)/cocoscreator"
@@ -39,3 +37,5 @@ jobs:
           # Install project dependencies
           npm install
           # Build the project
+          cocos compile -p web
+          # Add any other build or test commands specific to your Cocos Creator project here
