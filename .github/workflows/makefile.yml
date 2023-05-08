@@ -1,0 +1,29 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Cocos Creator
+      run: |
+        # Install Cocos Creator dependencies
+        sudo apt-get update
+        sudo apt-get install libxrandr2 libudev-dev libasound2
+        # Download and extract Cocos Creator
+        curl -L https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.0_20220307-linux.tar.gz -o cocos.tar.gz
+        tar -xf cocos.tar.gz
+        # Add Cocos Creator to the PATH
+        echo 'export PATH=$HOME/cocoscreator:$PATH' >> $HOME/.bashrc
+        source $HOME/.bashrc
+
+    - name: Build and Test
+      run: make build
