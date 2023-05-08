@@ -21,11 +21,11 @@ jobs:
       - name: Install Cocos Creator
         run: |
           # Download Cocos Creator
-          curl -L https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.7z -o cocos.7z
+          Invoke-WebRequest -Uri 'https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.zip' -OutFile 'cocos.zip'
           # Extract Cocos Creator
-          7z x cocos.7z -ococoscreator
+          Expand-Archive -Path 'cocos.zip' -DestinationPath 'cocoscreator'
           # Add Cocos Creator to the PATH
-          echo "::add-path::$(RUNNER_WORKSPACE)/cocoscreator"
+          echo "::add-path::$(PWD)/cocoscreator"
 
       - name: Build and Test
         run: |
