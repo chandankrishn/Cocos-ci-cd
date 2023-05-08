@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -18,21 +18,19 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Install 7-Zip
-        run: |
-          # Download 7-Zip
-          curl -L -o 7z.exe https://www.7-zip.org/a/7z1900-x64.exe
-          # Install 7-Zip silently
-          Start-Process -FilePath ".\7z.exe" -ArgumentList "x -aoa" -Wait
-
       - name: Install Cocos Creator
         run: |
           # Download Cocos Creator
-          curl -L -o cocos.zip https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.zip
-          # Extract Cocos Creator using 7-Zip
-          .\7z.exe x -aoa cocos.zip -ococoscreator
-          # Add Cocos Creator to the PATH
-          echo "::add-path::$(PWD)/cocoscreator"
+          curl -L -o cocos.zip https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_macOS.dmg
+          # Mount the disk image
+          hdiutil attach cocos.zip
+          # Extract Cocos Creator
+          ditto -rsrc /Volumes/CocosCreator/CocosCreator.app ./cocoscreator
+          # Unmount the disk image
+          hdiutil detach /Volumes/CocosCreator
+
+      - name: Add Cocos Creator to PATH
+        run: echo "::add-path::$(PWD)/cocoscreator"
 
       - name: Build and Test
         run: |
@@ -41,5 +39,3 @@ jobs:
           # Install project dependencies
           npm install
           # Build the project
-          cocos compile -p web
-          # Add any other build or test commands specific to your Cocos Creator project here
