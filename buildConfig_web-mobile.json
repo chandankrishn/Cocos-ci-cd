@@ -1,0 +1,40 @@
+{
+  "name": "cocos-ci-cd",
+  "platform": "web-mobile",
+  "buildPath": "project://build",
+  "debug": false,
+  "md5Cache": false,
+  "skipCompressTexture": false,
+  "sourceMaps": false,
+  "polyfills": {
+    "asyncFunctions": true
+  },
+  "experimentalEraseModules": false,
+  "useBuiltinServer": false,
+  "mainBundleIsRemote": false,
+  "mainBundleCompressionType": "merge_dep",
+  "replaceSplashScreen": false,
+  "startScene": "94b2b068-89b9-44c1-ae12-ece1ffd05f9b",
+  "outputName": "web-mobile",
+  "scenes": [
+    {
+      "url": "db://assets/Gameplay.scene",
+      "uuid": "94b2b068-89b9-44c1-ae12-ece1ffd05f9b",
+      "inBundle": false
+    }
+  ],
+  "web-desktop": [],
+  "packages": {
+    "web-mobile": {
+      "orientation": "auto",
+      "embedWebDebugger": false,
+      "__version__": "1.0.1"
+    },
+    "cocos-service": {
+      "configID": "7a02bb",
+      "services": []
+    }
+  },
+  "__version__": "1.3.3",
+  "web-mobile": []
+}
