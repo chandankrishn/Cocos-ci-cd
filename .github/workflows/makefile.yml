@@ -25,7 +25,7 @@ jobs:
           # Extract Cocos Creator
           7z x cocos.7z -ococoscreator
           # Add Cocos Creator to the PATH
-          echo "::add-path::$(Agent.WorkFolder)/cocoscreator"
+          echo "::add-path::$(RUNNER_WORKSPACE)/cocoscreator"
 
       - name: Build and Test
         run: |
