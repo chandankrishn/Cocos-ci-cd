@@ -3,27 +3,36 @@ name: CI/CD
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Install Cocos Creator
-      run: |
-        # Install Cocos Creator dependencies
-        sudo apt-get update
-        sudo apt-get install libxrandr2 libudev-dev libasound2
-        # Download and extract Cocos Creator
-        curl -L https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.0_20220307-linux.tar.gz -o cocos.tar.gz
-        tar -xf cocos.tar.gz
-        # Add Cocos Creator to the PATH
-        echo 'export PATH=$HOME/cocoscreator:$PATH' >> $HOME/.bashrc
-        source $HOME/.bashrc
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
-    - name: Build and Test
-      run: make build
+      - name: Install Cocos Creator
+        run: |
+          # Download Cocos Creator
+          curl -L https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.7z -o cocos.7z
+          # Extract Cocos Creator
+          7z x cocos.7z -ococoscreator
+          # Add Cocos Creator to the PATH
+          echo "::add-path::$(Agent.WorkFolder)/cocoscreator"
+
+      - name: Build and Test
+        run: |
+          # Change to the project directory
+          cd Cocos-ci-cd
+          # Install project dependencies
+          npm install
+          # Build the project
+          cocos compile -p web
+          # Add any other build or test commands specific to your Cocos Creator project here
