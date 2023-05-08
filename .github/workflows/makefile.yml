@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
       - name: Install Cocos Creator
         run: |
           # Download Cocos Creator
-          Invoke-WebRequest -Uri 'https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.zip' -OutFile 'cocos.zip'
+          curl -L -o cocos.zip https://download.cocos.com/CocosCreator/v3/CocosCreator_v3.6.2/CocosCreator_v3.6.2_Windows.zip
           # Extract Cocos Creator
           Expand-Archive -Path 'cocos.zip' -DestinationPath 'cocoscreator'
           # Add Cocos Creator to the PATH
@@ -33,6 +33,3 @@ jobs:
           cd Cocos-ci-cd
           # Install project dependencies
           npm install
-          # Build the project
-          cocos compile -p web
-          # Add any other build or test commands specific to your Cocos Creator project here
